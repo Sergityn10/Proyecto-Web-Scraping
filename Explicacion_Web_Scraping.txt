@@ -8,12 +8,15 @@
 import requests
 # Se importa la librería Beautiful para realizar Web Scraping sobre la página web
 import bs4
+# Se importa la librería csv para convertir los datos almacenados en un archivo csv
+import csv
 # ----- VARIABLES -----
 # Estas variables representan los colores con los que se van a mostrar los mensajes por terminal
 azul = "\33[1;36m"
 blanco = "\33[1;37m"
 amarillo = "\33[0;33m"
 # ----- PROCEDIMIENTOS -----
+# datos_Scraping
     # ----- DEFINICIÓN DE LA PETICIÓN -----
     # Se inicializa el diccionario donde se almacenan las variables a extraer y sus valores
     # Se definen las cabeceras para la petición. Desde el modo inspeccionar del navegador se puede obtener el user-agent que utiliza
@@ -78,9 +81,20 @@ amarillo = "\33[0;33m"
     # Por último, se juntan ambos datos, el resultado se convierte a float y se almacena
     # Si no hay un precio actual (porque no hay un descuento), se almacena un objeto vacío
     # Devuelve el diccionario creado
+# tratamiento_Scraping
+    # Del diccionario resultante se extraen los datos obtenidos y se realiza el tratamiento 
+    # Para cada clave (que se muestra en mayúsculas), se muestra el valor correspondiente
+# almacenamiento_Scraping
+    # Se crea el archivo csv
+      # Se crea el objeto writer
+        # Se escribe la fila de columnas
+        # Se escriben los datos del diccionario
 # ----- MAIN -----
     # Se define la url de la página web sobre la que se va a realizar Web Scraping
     # Se invoca al procedimiento datos_Scraping con la url y los resultados se almacenan en la variable datos
-    # Del diccionario resultante se extraen los datos obtenidos y se realiza el tratamiento 
-    # Para cada clave (que se muestra en mayúsculas), se muestra el valor correspondiente
+    # Se invoca al procedimiento tratamiento_Scraping con el diccionario para mostrar los resultados
+    # Ahora se obtienen datos a partir de otras urls
+    # Para acabar el proceso de Web Scraping, se crea un datasets a partir de la lista de diccionarios que se han obtenido
+    # Para ello, se crea la lista de diccionarios
+    # Se invoca al procedimiento almacenamiento_Scraping con la lista para almacenar los datos
     # Se termina el programa

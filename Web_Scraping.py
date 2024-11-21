@@ -6,14 +6,17 @@
 # ----- LIBRERÍAS -----
 # Se importa la librería requests para realizar la petición de conexión a la página web
 import requests
-#Se importa la librería Beautiful para realizar Web Scraping sobre la página web
+# Se importa la librería Beautiful para realizar Web Scraping sobre la página web
 from bs4 import BeautifulSoup
+# Se importa la librería csv para convertir los datos almacenados en un archivo csv
+import csv
 # ----- VARIABLES -----
 # Estas variables representan los colores con los que se van a mostrar los mensajes por terminal
 azul = "\33[1;36m"
 blanco = "\33[1;37m"
 amarillo = "\33[0;33m"
 # ----- PROCEDIMIENTOS -----
+# datos_Scraping
 def datos_Scraping(url):
     # ----- DEFINICIÓN DE LA PETICIÓN -----
     # Se inicializa el diccionario donde se almacenan las variables a extraer y sus valores
@@ -113,15 +116,45 @@ def datos_Scraping(url):
         d["precio_actual"] = None
     # Devuelve el diccionario creado
     return d
+# tratamiento_Scraping
+def tratamiento_Scraping(datos):
+    # Del diccionario resultante se extraen los datos obtenidos y se realiza el tratamiento 
+    for clave, valor in datos.items():
+        # Para cada clave (que se muestra en mayúsculas), se muestra el valor correspondiente
+        print(f'{azul}{clave.upper()}: {amarillo}{valor}{blanco}')
+# almacenamiento_Scraping
+def almacenamiento_Scraping(listaDiccionarios):
+    # Se crea el archivo csv
+    archivoCSV = "Web_Scraping.csv"
+    with open(archivoCSV, mode="w", newline="", encoding="utf-8") as archivo:
+        # Se crea el objeto writer
+        writer = csv.DictWriter(archivo, fieldnames=["url", "id", "nombre_producto", "url_imagen", "plataformas", "valoracion", "precio_original", "precio_actual"])
+        # Se escribe la fila de columnas
+        writer.writeheader()
+        # Se escriben los datos del diccionario
+        writer.writerows(listaDiccionarios)
 # ----- MAIN -----
 if __name__ == "__main__":
     # Se define la url de la página web sobre la que se va a realizar Web Scraping
     url = "https://www.game.es/ACCESORIOS/AURICULARES/PC-GAMING/GAME-HX-WPRO-AURICULARES-GAMING-INALAMBRICOS-NEGRO/220178"
     # Se invoca al procedimiento datos_Scraping con la url y los resultados se almacenan en la variable datos
-    datos = datos_Scraping(url)
-    # Del diccionario resultante se extraen los datos obtenidos y se realiza el tratamiento 
-    for clave, valor in datos.items():
-        # Para cada clave (que se muestra en mayúsculas), se muestra el valor correspondiente
-        print(f'{azul}{clave.upper()}: {amarillo}{valor}{blanco}')
+    datos1 = datos_Scraping(url)
+    # Se invoca al procedimiento tratamiento_Scraping con el diccionario para mostrar los resultados
+    tratamiento_Scraping(datos1)
+    # Ahora se obtienen datos a partir de otras urls
+    url = "https://www.game.es/VIDEOJUEGOS/CARTAS/NINTENDO-SWITCH/BALATRO-SPECIAL-EDITION/232599"
+    datos2 = datos_Scraping(url)
+    tratamiento_Scraping(datos2)
+    url = "https://www.game.es/VIDEOJUEGOS/ROL/PLAYSTATION-5/METAPHOR-REFANTAZIO/230731"
+    datos3 = datos_Scraping(url)
+    tratamiento_Scraping(datos3)
+    url = "https://www.game.es/OFERTAS/PACK/PACKS/3X2-EN-SETS-DE-LEGO/P05399"
+    datos4 = datos_Scraping(url)
+    tratamiento_Scraping(datos4)
+    # Para acabar el proceso de Web Scraping, se crea un datasets a partir de la lista de diccionarios que se han obtenido
+    # Para ello, se crea la lista de diccionarios
+    listaDiccionarios = [datos1, datos2, datos3, datos4]
+    # Se invoca al procedimiento almacenamiento_Scraping con la lista para almacenar los datos
+    almacenamiento_Scraping(listaDiccionarios)
     # Se termina el programa
     exit(0)
