@@ -10,6 +10,8 @@ import requests
 from bs4 import BeautifulSoup
 # Se importa la librería csv para convertir los datos almacenados en un archivo csv
 import csv
+#SE IMPORTA LA FUNCIÓN DESARROLLADA EN EL ARCHIVO "datasets.py", para poder utilizarla desde este archivos
+from Datasets.datasets import almacenamiento_dataframe
 # ----- VARIABLES -----
 # Estas variables representan los colores con los que se van a mostrar los mensajes por terminal
 azul = "\33[1;36m"
@@ -148,13 +150,19 @@ if __name__ == "__main__":
     url = "https://www.game.es/VIDEOJUEGOS/ROL/PLAYSTATION-5/METAPHOR-REFANTAZIO/230731"
     datos3 = datos_Scraping(url)
     tratamiento_Scraping(datos3)
-    url = "https://www.game.es/OFERTAS/PACK/PACKS/3X2-EN-SETS-DE-LEGO/P05399"
-    datos4 = datos_Scraping(url)
-    tratamiento_Scraping(datos4)
+    # url = "https://www.game.es/OFERTAS/PACK/PACKS/3X2-EN-SETS-DE-LEGO/P05399"
+    # datos4 = datos_Scraping(url)
+    # tratamiento_Scraping(datos4)
     # Para acabar el proceso de Web Scraping, se crea un datasets a partir de la lista de diccionarios que se han obtenido
     # Para ello, se crea la lista de diccionarios
-    listaDiccionarios = [datos1, datos2, datos3, datos4]
+    # listaDiccionarios = [datos1, datos2, datos3, datos4]
+   
+    listaDiccionarios = [datos1, datos2, datos3]
+
     # Se invoca al procedimiento almacenamiento_Scraping con la lista para almacenar los datos
-    almacenamiento_Scraping(listaDiccionarios)
+    # almacenamiento_Scraping(listaDiccionarios)
+
+    almacenamiento_dataframe(listaDiccionarios)
+
     # Se termina el programa
     exit(0)
